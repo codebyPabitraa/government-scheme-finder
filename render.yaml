@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: sarkar-yojana-api
+    runtime: python
+    region: singapore   # Closest to India
+    plan: free
+
+    # Install dependencies
+    buildCommand: pip install -r requirements.txt
+
+    # Start the FastAPI server
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+
+    # Environment variables — set GROQ_API_KEY in Render dashboard
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false      # Set manually in Render dashboard (secret)
+      - key: PYTHONUNBUFFERED
+        value: "1"
+
+    # Health check endpoint
+    healthCheckPath: /

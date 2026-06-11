@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sarkar Yojana Finder — Find Government Schemes</title>
+    <meta name="description" content="AI-powered tool to find Indian government schemes you are eligible for. Search 4715+ schemes by age, income, state, category and occupation.">
+
+    <!-- Google Fonts: Latin, Devanagari (Hindi), Bengali -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body data-lang="en">
+
+    <!-- Navbar -->
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="nav-inner">
+            <div class="logo">🇮🇳 Sarkar Yojana</div>
+            <div class="nav-center">
+                <div class="lang-switcher" role="group" aria-label="Language selector">
+                    <button class="lang-btn active" data-lang="en" id="lang-en" onclick="setLanguage('en')">EN</button>
+                    <button class="lang-btn" data-lang="hi" id="lang-hi" onclick="setLanguage('hi')">हि</button>
+                    <button class="lang-btn" data-lang="bn" id="lang-bn" onclick="setLanguage('bn')">বাং</button>
+                </div>
+            </div>
+            <div class="nav-links">
+                <a href="#" data-i18n="navHome">Home</a>
+                <a href="#" data-i18n="navAbout">About</a>
+                <a href="https://www.myscheme.gov.in" target="_blank" rel="noopener" data-i18n="navGov">MyScheme.gov.in</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero" aria-label="Hero section">
+        <div class="hero-inner">
+            <div class="hero-badge" data-i18n="heroBadge">🤖 AI Powered</div>
+            <h1>
+                <span data-i18n="heroTitle">Find Government Schemes</span><br>
+                <span class="hero-highlight" data-i18n="heroTitleSpan">Made For You</span>
+            </h1>
+            <p data-i18n="heroDesc">Answer a few questions and instantly discover all central and state government schemes you are eligible for.</p>
+            <div class="hero-stats">
+                <div class="stat"><span>4715+</span> <span data-i18n="stat1">Schemes</span></div>
+                <div class="stat"><span>28+</span> <span data-i18n="stat2">States</span></div>
+                <div class="stat"><span>15+</span> <span data-i18n="stat3">Categories</span></div>
+                <div class="stat"><span>Free</span> <span data-i18n="stat4">No Login</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Form -->
+    <section class="form-section" aria-label="Scheme finder form">
+        <div class="form-card">
+            <h2 data-i18n="formTitle">📋 Tell Us About Yourself</h2>
+            <p class="form-subtitle" data-i18n="formSubtitle">We'll find schemes matching your profile</p>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="age" data-i18n="labelAge">Age</label>
+                    <input type="number" id="age" value="25" min="0" max="100" aria-label="Age">
+                </div>
+                <div class="form-group">
+                    <label for="gender" data-i18n="labelGender">Gender</label>
+                    <select id="gender" aria-label="Gender">
+                        <option>Male</option>
+                        <option>Female</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="income" data-i18n="labelIncome">Annual Family Income (Rs)</label>
+                    <input type="number" id="income" value="150000" step="10000" aria-label="Annual family income">
+                </div>
+                <div class="form-group">
+                    <label for="caste" data-i18n="labelCategory">Category</label>
+                    <select id="caste" aria-label="Category">
+                        <option>General</option>
+                        <option>SC</option>
+                        <option>ST</option>
+                        <option>OBC</option>
+                        <option>Minority</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="state" data-i18n="labelState">State</label>
+                    <select id="state" aria-label="State">
+                        <option>All India</option>
+                        <option>Andhra Pradesh</option>
+                        <option>Arunachal Pradesh</option>
+                        <option>Assam</option>
+                        <option>Bihar</option>
+                        <option>Chhattisgarh</option>
+                        <option>Goa</option>
+                        <option>Gujarat</option>
+                        <option>Haryana</option>
+                        <option>Himachal Pradesh</option>
+                        <option>Jharkhand</option>
+                        <option>Karnataka</option>
+                        <option>Kerala</option>
+                        <option>Madhya Pradesh</option>
+                        <option>Maharashtra</option>
+                        <option>Manipur</option>
+                        <option>Meghalaya</option>
+                        <option>Mizoram</option>
+                        <option>Nagaland</option>
+                        <option>Odisha</option>
+                        <option>Punjab</option>
+                        <option>Rajasthan</option>
+                        <option>Sikkim</option>
+                        <option>Tamil Nadu</option>
+                        <option>Telangana</option>
+                        <option>Tripura</option>
+                        <option>Uttar Pradesh</option>
+                        <option>Uttarakhand</option>
+                        <option>West Bengal</option>
+                        <option>Delhi</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="occupation" data-i18n="labelOccupation">Occupation</label>
+                    <select id="occupation" aria-label="Occupation">
+                        <option>Farmer</option>
+                        <option>Student</option>
+                        <option>Business Owner</option>
+                        <option>Unemployed</option>
+                        <option>Salaried</option>
+                        <option>Self Employed</option>
+                        <option>Artisan</option>
+                        <option>Daily Wage Worker</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group full-width">
+                <label for="extra" data-i18n="labelExtra">Any specific need? (optional)</label>
+                <input type="text" id="extra"
+                    placeholder="e.g. housing loan, girl child education, health insurance"
+                    data-i18n-placeholder="extraPlaceholder"
+                    aria-label="Specific need">
+            </div>
+
+            <button class="find-btn" id="find-btn" onclick="findSchemes()">
+                <span data-i18n="findBtn">🔍 Find My Schemes</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Results -->
+    <section class="results-section" id="results-section" style="display:none;" aria-label="Search results" aria-live="polite">
+        <div class="results-card">
+            <h2 data-i18n="resultsTitle">✅ Schemes You May Be Eligible For</h2>
+            <div id="results-content" class="results-content"></div>
+            <div class="apply-note">
+                <span data-i18n="applyNote">💡 Visit</span>
+                <a href="https://www.myscheme.gov.in" target="_blank" rel="noopener">MyScheme.gov.in</a>
+                <span data-i18n="applyNoteSuffix">to apply officially.</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading" style="display:none;" role="status" aria-live="polite">
+        <div class="loader-box">
+            <div class="spinner"></div>
+            <p id="loading-text" data-i18n="loadingText">Searching 4715+ schemes for you...</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p data-i18n="footerText">Built with ❤️ for citizens of India | Data from MyScheme.gov.in</p>
+    </footer>
+
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

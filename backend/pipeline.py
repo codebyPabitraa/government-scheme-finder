@@ -23,18 +23,14 @@ def retrieve_schemes(query: str, k: int = 5):
     return results
 
 def rag_pipeline(user_query: str):
+    # Retrieve relevant schemes
     results = retrieve_schemes(user_query)
+
+    # Build context
     context = ""
-    scheme_links = []
     for r in results:
         context += r.page_content + "\n\n"
-        slug = r.metadata.get("slug", "")
-        name = r.metadata.get("name", "")
-        if slug:
-            scheme_links.append({
-                "name": name,
-                "url": f"https://www.myscheme.gov.in/schemes/{slug}"
-            })
+
     # Build prompt
     prompt = f"""
 You are a helpful Indian government scheme advisor.
@@ -49,11 +45,8 @@ User Query: {user_query}
 Answer:
 """
     response = get_llm_response(prompt)
-    return {"result": response , "links": scheme_links}
+    return response
+
 if __name__ == "__main__":
     query = "I am a farmer with 1 hectare land and income of 1.5 lakh. What schemes can I get?"
-    output = rag_pipeline(query)
-    print(output["result"])
-    print("\nScheme Links:")
-    for link in output["links"]:
-        print(f"{link['name']} -> {link['url']}")
+    print(rag_pipeline(query))

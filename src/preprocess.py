@@ -39,7 +39,8 @@ Tags: {tags}
                 "category": category,
                 "state": state,
                 "ministry": ministry,
-                "level": level
+                "level": level,
+                "slug": scheme.get("slug", "")
             }
         })
 
