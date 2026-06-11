@@ -18,7 +18,7 @@ async function findSchemes() {
         });
 
         const data = await response.json();
-        renderResults(data.result);
+        renderResults(data.result, data.links);
         document.getElementById('results-section').style.display = 'block';
         document.getElementById('results-section').scrollIntoView({ behavior: 'smooth' });
 
@@ -29,43 +29,66 @@ async function findSchemes() {
     }
 }
 
-function renderResults(text) {
+function renderResults(text, links = []) {
     const container = document.getElementById('results-content');
     container.innerHTML = '';
 
-    // Split by numbered schemes
-    const lines = text.split('\n').filter(l => l.trim() !== '');
-    let html = '';
-    let inCard = false;
+    const schemeBlocks = text.split(/\n(?=\d+\.\s)/);
 
-    for (let line of lines) {
-        line = line.trim();
+    let cardsHTML = '';
+    let cardIndex = 0;
 
-        // Numbered scheme line e.g. "1. **PM Kisan**:"
-        if (/^\d+\.\s+\*\*/.test(line)) {
-            if (inCard) html += '</div>';
-            const title = line.replace(/^\d+\.\s+\*\*/, '').replace(/\*\*.*/, '').replace(/\*\*/g, '').trim();
-            const fullTitle = line.replace(/^\d+\.\s+/, '').replace(/\*\*/g, '').trim();
-            html += `
+    schemeBlocks.forEach(block => {
+        block = block.trim();
+        if (!block) return;
+
+        if (/^\d+\.\s/.test(block)) {
+            const lines = block.split('\n').filter(l => l.trim());
+
+            const titleLine = lines[0]
+                .replace(/^\d+\.\s+/, '')
+                .replace(/\*\*/g, '')
+                .replace(/:$/, '')
+                .trim();
+
+            const summary = lines.slice(1)
+                .map(l => l.replace(/\*\*/g, '').trim())
+                .filter(l => l)
+                .join(' ');
+
+            // Use link by position, not by name
+            const applyUrl = links[cardIndex] ? links[cardIndex].url : null;
+            cardIndex++;
+
+            cardsHTML += `
                 <div class="scheme-card">
-                    <div class="scheme-title">✅ ${fullTitle.replace(/:/g, '')}</div>
-                    <div class="scheme-body">
+                    <div class="scheme-header">
+                        <span class="scheme-icon">🏛️</span>
+                        <h3 class="scheme-title">${titleLine}</h3>
+                    </div>
+                    ${summary ? `<p class="scheme-summary">${summary}</p>` : ''}
+                    <div class="scheme-footer">
+                        ${applyUrl
+                            ? `<a href="${applyUrl}" target="_blank" class="apply-btn">Apply Now →</a>`
+                            : `<a href="https://www.myscheme.gov.in" target="_blank" class="apply-btn">Apply Now →</a>`
+                        }
+                    </div>
+                </div>
             `;
-            inCard = true;
-
-        } else if (line.startsWith('**') && line.endsWith('**')) {
-            // Bold standalone line
-            html += `<p><strong>${line.replace(/\*\*/g, '')}</strong></p>`;
-
-        } else if (line.startsWith('Please note') || line.startsWith('I recommend') || line.startsWith('As a') || line.startsWith('I hope')) {
-            if (inCard) { html += '</div></div>'; inCard = false; }
-            html += `<p class="note-text">💡 ${line}</p>`;
-
         } else {
-            html += `<p>${line.replace(/\*\*/g, '<strong>').replace(/\*\*/g, '</strong>')}</p>`;
+            cardsHTML += `<p class="result-note">${block.replace(/\*\*/g, '')}</p>`;
         }
-    }
+    });
 
-    if (inCard) html += '</div></div>';
-    container.innerHTML = html;
+    container.innerHTML = cardsHTML;
+}
+function findLink(title, linkMap) {
+    const t = title.toLowerCase().trim();
+    // Exact match
+    if (linkMap[t]) return linkMap[t];
+    // Partial match
+    for (const key of Object.keys(linkMap)) {
+        if (t.includes(key) || key.includes(t)) return linkMap[key];
+    }
+    return null;
 }

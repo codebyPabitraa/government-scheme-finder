@@ -5,18 +5,19 @@ from langchain_community.embeddings import HuggingFaceEmbeddings
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# pyrefly: ignore [missing-import]
 from src.llm import get_llm_response
 
 def load_vectorstore():
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     embeddings = HuggingFaceEmbeddings(
         model_name="all-MiniLM-L6-v2"
     )
     vectorstore = Chroma(
-        persist_directory="embeddings",
+        persist_directory=os.path.join(BASE_DIR, "embeddings"),
         embedding_function=embeddings
     )
     return vectorstore
-
 def retrieve_schemes(query: str, k: int = 5):
     vectorstore = load_vectorstore()
     results = vectorstore.similarity_search(query, k=k)
