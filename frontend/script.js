@@ -11,7 +11,7 @@ async function findSchemes() {
     document.getElementById('results-section').style.display = 'none';
 
     try {
-        const response = await fetch('http://127.0.0.1:8000/find-schemes', {
+        const response = await fetch('https://government-scheme-finder-hndd.onrender.com/find-schemes', {, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ age, gender, income, caste, state, occupation, extra })
